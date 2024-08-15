@@ -25,6 +25,7 @@ const typeDefs = `#graphql
 
   type Query {
     books: [Book]
+    book(id: ID!): Book
   }
 `
 
@@ -32,6 +33,13 @@ const resolvers = {
   Query: {
     books: async (parent: any, args: any, context: Context) => {
       return await prisma.book.findMany()
+    },
+    book: async (parent: any, args: any, context: Context) => {
+      return await prisma.book.findUnique({
+        where: {
+          id: args.id,
+        },
+      })
     },
   },
   Book: {
