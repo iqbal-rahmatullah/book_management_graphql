@@ -17,7 +17,6 @@ model Book {
   id        String   @id @default(uuid())
   title     String
   image     String?
-  id_author String
   author    Author[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

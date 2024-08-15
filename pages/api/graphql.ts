@@ -27,17 +27,31 @@ const typeDefs = `#graphql
     books: [Book]
     book(id: ID!): Book
   }
+  
+  type Mutation  {
+    createBook(title: String, image: String): Book
+  }
 `
 
 const resolvers = {
   Query: {
     books: async (parent: any, args: any, context: Context) => {
-      return await prisma.book.findMany()
+      return await context.prisma.book.findMany()
     },
     book: async (parent: any, args: any, context: Context) => {
-      return await prisma.book.findUnique({
+      return await context.prisma.book.findUnique({
         where: {
           id: args.id,
+        },
+      })
+    },
+  },
+  Mutation: {
+    createBook: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.book.create({
+        data: {
+          title: args.title,
+          image: args.image,
         },
       })
     },
