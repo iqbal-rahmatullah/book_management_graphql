@@ -31,6 +31,7 @@ const typeDefs = `#graphql
   type Mutation  {
     createBook(title: String, image: String): Book
     updateBook(id: ID!, title: String, image: String): Book
+    addAuthor(name: String, bookId: ID!): Author
   }
 `
 
@@ -64,6 +65,14 @@ const resolvers = {
         data: {
           title: args.title,
           image: args.image,
+        },
+      })
+    },
+    addAuthor: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.author.create({
+        data: {
+          name: args.name,
+          bookId: args.bookId,
         },
       })
     },
