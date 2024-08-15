@@ -32,6 +32,7 @@ const typeDefs = `#graphql
     createBook(title: String, image: String): Book
     updateBook(id: ID!, title: String, image: String): Book
     addAuthor(name: String, bookId: ID!): Author
+    deleteAuthor(id: ID!): Author
   }
 `
 
@@ -73,6 +74,13 @@ const resolvers = {
         data: {
           name: args.name,
           bookId: args.bookId,
+        },
+      })
+    },
+    deleteAuthor: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.author.delete({
+        where: {
+          id: args.id,
         },
       })
     },
